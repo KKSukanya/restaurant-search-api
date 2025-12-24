@@ -1,17 +1,28 @@
-const express = require("express");
-const app = express();
-const {sequelize, testConnection } = require("./db/index");
-const searchRoutes = require("./routes/search");
-require("dotenv").config();
+const { Sequelize } = require("sequelize");
+const { sequelize, testConnection } = require("./db/index");
 
-app.use(express.json());
+const sequelize = new Sequelize(
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD || "",
+  {
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    dialect: "postgres",
+    logging: false,
+  }
+);
 
-// Routes
-app.use("/search", searchRoutes);
+const testConnection = async () => {
+  try {
+    await sequelize.authenticate();
+    console.log("Database connected!");
+  } catch (error) {
+    console.error("Unable to connect to the database:", error);
+  }
+};
 
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, async () => {
-  await testConnection();
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+module.exports = {
+  sequelize,
+  testConnection,
+};
