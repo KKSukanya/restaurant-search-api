@@ -4,7 +4,7 @@ A RESTful API built with Node.js, Express, Sequelize, and PostgreSQL that allows
 
 Live URL of Railway: https://restaurant-search-api-production-5250.up.railway.app/
 
-##  Features
+#  Features
 - Search restaurants by dish name
 - Filter results by minimum and maximum price
 - Uses PostgreSQL with Sequelize ORM
